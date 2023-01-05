@@ -5,7 +5,7 @@ import action.VisitorAbstract;
 public class Logout extends Page {
 
     public Logout() {
-        this.pageType = "logout";
+        this.setPageType("logout");
     }
 
     /**

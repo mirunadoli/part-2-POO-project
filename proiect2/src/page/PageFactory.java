@@ -1,7 +1,12 @@
 package page;
 
 public class PageFactory {
-    public Page createPage(String pageType) {
+    /**
+     *
+     * @param pageType
+     * @return
+     */
+    public Page createPage(final String pageType) {
         switch (pageType) {
             case "login": return new Login();
             case "register": return new Register();

@@ -3,14 +3,12 @@ package action;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import data.ActionInput;
 import data.Input;
-import data.User;
 import page.Page;
-import page.SeeDetails;
 import util.OutputMessage;
 
 import java.util.ArrayList;
 
-public class ChangeCommand extends CommandAbstract{
+public class ChangeCommand extends CommandAbstract {
     private ActionInput action;
     private Input input;
     private ArrayNode output;
@@ -18,7 +16,7 @@ public class ChangeCommand extends CommandAbstract{
     private ChangePage changePage;
     private AfterChangePage afterChange;
 
-    public ChangeCommand(Input input, ArrayNode output) {
+    public ChangeCommand(final Input input, final ArrayNode output) {
         this.input = input;
         this.output = output;
         changePage = new ChangePage(input, output);
@@ -26,6 +24,9 @@ public class ChangeCommand extends CommandAbstract{
     }
 
 
+    /**
+     *
+     */
     public void execute() {
         changePage.setAction(action);
         afterChange.setAction(action);
@@ -38,16 +39,26 @@ public class ChangeCommand extends CommandAbstract{
             if (action.getPage().equals("see details")) {
                 afterChange.setPreviousPage(previousPages.get(previousPages.size() - 1));
             }
+
             input.getCurrentPage().accept(afterChange);
+
+            if (action.getPage().equals("see details")
+                    && previousPages.get(previousPages.size() - 1) ==  input.getCurrentPage()) {
+                previousPages.remove(input.getCurrentPage());
+            }
             if (action.getPage().equals("logout")) {
                 previousPages.clear();
             }
+
         } else {
             // remove page from prevPages
             previousPages.remove(input.getCurrentPage());
         }
     }
 
+    /**
+     *
+     */
     public void undo() {
         OutputMessage message = new OutputMessage();
         if (input.getCurrentUser() == null) {
@@ -70,8 +81,8 @@ public class ChangeCommand extends CommandAbstract{
         input.setCurrentPage(backPage);
         previousPages.remove(input.getCurrentPage());
 
-        if (backPage.getPageType().equals("movies") ||
-                backPage.getPageType().equals("see details")) {
+        if (backPage.getPageType().equals("movies")
+                || backPage.getPageType().equals("see details")) {
             message.setCurrentMoviesList(backPage.getMoviesOnScreen());
             message.setCurrentUser(input.getCurrentUser());
             message.addToOutput(output);
@@ -80,51 +91,51 @@ public class ChangeCommand extends CommandAbstract{
     }
 
 
-    public ActionInput getAction() {
+    public final ActionInput getAction() {
         return action;
     }
 
-    public void setAction(ActionInput action) {
+    public final void setAction(final ActionInput action) {
         this.action = action;
     }
 
-    public Input getInput() {
+    public final Input getInput() {
         return input;
     }
 
-    public void setInput(Input input) {
+    public final void setInput(final Input input) {
         this.input = input;
     }
 
-    public ArrayNode getOutput() {
+    public final ArrayNode getOutput() {
         return output;
     }
 
-    public void setOutput(ArrayNode output) {
+    public final void setOutput(final ArrayNode output) {
         this.output = output;
     }
 
-    public ArrayList<Page> getPreviousPages() {
+    public final ArrayList<Page> getPreviousPages() {
         return previousPages;
     }
 
-    public void setPreviousPages(ArrayList<Page> previousPages) {
+    public final void setPreviousPages(final ArrayList<Page> previousPages) {
         this.previousPages = previousPages;
     }
 
-    public ChangePage getChangePage() {
+    public final ChangePage getChangePage() {
         return changePage;
     }
 
-    public void setChangePage(ChangePage changePage) {
+    public final void setChangePage(final ChangePage changePage) {
         this.changePage = changePage;
     }
 
-    public AfterChangePage getAfterChange() {
+    public final AfterChangePage getAfterChange() {
         return afterChange;
     }
 
-    public void setAfterChange(AfterChangePage afterChange) {
+    public final void setAfterChange(final AfterChangePage afterChange) {
         this.afterChange = afterChange;
     }
 }

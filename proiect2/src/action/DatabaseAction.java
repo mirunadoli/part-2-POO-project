@@ -5,21 +5,48 @@ import data.ActionInput;
 import data.Input;
 import data.Movie;
 import data.User;
+import page.Page;
 import util.OutputMessage;
 
-import java.util.ArrayList;
-
 public class DatabaseAction {
-    Input input;
-    ArrayNode output;
+    private Input input;
+    private ArrayNode output;
+    private ChangeCommand changeCommand;
 
-    public DatabaseAction(Input input, ArrayNode output) {
+    public DatabaseAction(final Input input, final ArrayNode output) {
         this.input = input;
         this.output = output;
     }
 
+    public final Input getInput() {
+        return input;
+    }
 
-    public void addMovie(Movie movie) {
+    public final void setInput(final Input input) {
+        this.input = input;
+    }
+
+    public final ArrayNode getOutput() {
+        return output;
+    }
+
+    public final void setOutput(final ArrayNode output) {
+        this.output = output;
+    }
+
+    public final ChangeCommand getChangeCommand() {
+        return changeCommand;
+    }
+
+    public final void setChangeCommand(final ChangeCommand changeCommand) {
+        this.changeCommand = changeCommand;
+    }
+
+    /**
+     *
+     * @param movie
+     */
+    public void addMovie(final Movie movie) {
         for (Movie mov : input.getMovies()) {
             if (mov.getName().equals(movie.getName())) {
                 OutputMessage message = new OutputMessage();
@@ -33,12 +60,33 @@ public class DatabaseAction {
             for (String genre : movie.getGenres()) {
                 if (user.getSubscribedGenres().contains(genre)) {
                     user.notifyUserAdd(movie.getName());
+                    break;
+                }
+            }
+        }
+
+        for (User user : input.getUsers()) {
+            user.addMovie(movie);
+        }
+
+        if (input.getCurrentPage().getPageType().equals("movies")) {
+            input.getCurrentPage().getMoviesOnScreen().add(movie);
+        }
+
+        if (input.getCurrentUser().getAvailableMovies().contains(movie)) {
+            for (Page page : changeCommand.getPreviousPages()) {
+                if (page.getPageType().equals("movies")) {
+                    page.getMoviesOnScreen().add(movie);
                 }
             }
         }
     }
 
-    public void deleteMovie(String movieName) {
+    /**
+     *
+     * @param movieName
+     */
+    public void deleteMovie(final String movieName) {
         int ok = 0;
         Movie movieToDelete = null;
         for (Movie movie : input.getMovies()) {
@@ -69,12 +117,18 @@ public class DatabaseAction {
         }
 
         // if the movie is seen on screen
-        if (input.getCurrentPage().getMoviesOnScreen().contains(movieToDelete)) {
+        Page current = input.getCurrentPage();
+        if (current.getMoviesOnScreen() != null
+                && current.getMoviesOnScreen().contains(movieToDelete)) {
             input.getCurrentPage().getMoviesOnScreen().remove(movieToDelete);
         }
     }
 
-    public void execute(ActionInput action) {
+    /**
+     *
+     * @param action
+     */
+    public void execute(final ActionInput action) {
         if (action.getFeature().equals("add")) {
             addMovie(action.getAddedMovie());
         } else {

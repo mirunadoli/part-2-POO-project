@@ -5,8 +5,6 @@ import data.*;
 import page.*;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 
 import util.Constants;
 import util.OutputMessage;
@@ -314,10 +312,6 @@ public class OnPage extends VisitorAbstract {
             }
             movie.setRating(ratingSum / movie.getNumRatings());
             message.addToOutput(output);
-            // increase the num ratings for the movie and recalculate the rating
-//            movie.setNumRatings(movie.getNumRatings() + 1);
-//            movie.setRatingSum(movie.getRatingSum() + action.getRate());
-//            movie.setRating(movie.getRatingSum() / movie.getNumRatings());
 
             return;
 
@@ -325,7 +319,7 @@ public class OnPage extends VisitorAbstract {
 
         if (action.getFeature().equals("subscribe")) {
             // verify if genre is between movie genres
-            if (!page.getMoviesOnScreen().get(0).getGenres().contains(action.getSubscribedGenre())) {
+            if (!movie.getGenres().contains(action.getSubscribedGenre())) {
                 message.addError(output);
                 return;
             }
@@ -337,6 +331,7 @@ public class OnPage extends VisitorAbstract {
 
             // add it to subscribed genres
             user.getSubscribedGenres().add(action.getSubscribedGenre());
+            return;
         }
 
         message.addError(output);

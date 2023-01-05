@@ -7,10 +7,15 @@ import java.util.Collections;
 import java.util.Comparator;
 
 public final class OnPageUtil {
+
+    private OnPageUtil() {
+
+    }
+
     /**
      * creates a list with the available movies for the current user
      */
-    public static void createAvailableMovies(Input input) {
+    public static void createAvailableMovies(final Input input) {
 
         User user = input.getCurrentUser();
         int ok;
@@ -36,7 +41,7 @@ public final class OnPageUtil {
      * searches for a movie that starts with the string given in action
      * @return
      */
-    public static ArrayList<Movie> search(Input input, ActionInput action) {
+    public static ArrayList<Movie> search(final Input input, final ActionInput action) {
         ArrayList<Movie> searched = new ArrayList<>();
         for (Movie movie : input.getCurrentPage().getMoviesOnScreen()) {
             if (movie.getName().startsWith(action.getStartsWith())) {
@@ -81,7 +86,7 @@ public final class OnPageUtil {
      * creates a sorted list of the movies shown on screen
      * @return
      */
-    public static ArrayList<Movie> sort(Input input, ActionInput action) {
+    public static ArrayList<Movie> sort(final Input input, final ActionInput action) {
         // creates the list
         ArrayList<Movie> sorted = new ArrayList<>();
         sorted.addAll(input.getCurrentPage().getMoviesOnScreen());
@@ -155,7 +160,7 @@ public final class OnPageUtil {
      * given in the command
      * @return
      */
-    public static ArrayList<Movie> contains(Input input, ActionInput action) {
+    public static ArrayList<Movie> contains(final Input input, final ActionInput action) {
 
         ArrayList<Movie> movies = input.getCurrentUser().getAvailableMovies();
         ArrayList<Movie> contains = new ArrayList<>();

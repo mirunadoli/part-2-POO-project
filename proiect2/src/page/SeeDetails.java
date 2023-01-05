@@ -1,7 +1,6 @@
 package page;
 
 import action.VisitorAbstract;
-import data.Movie;
 
 import java.util.ArrayList;
 
@@ -9,8 +8,8 @@ public class SeeDetails extends Page {
 
 
     public SeeDetails() {
-        this.pageType = "see details";
-        this.moviesOnScreen = new ArrayList<>();
+        this.setPageType("see details");
+        this.setMoviesOnScreen(new ArrayList<>());
     }
 
     /**

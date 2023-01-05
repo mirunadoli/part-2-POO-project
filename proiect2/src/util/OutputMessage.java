@@ -47,9 +47,12 @@ public class OutputMessage {
      * @param output
      */
     public void addToOutput(final ArrayNode output) {
-        ArrayList<Movie> currentMovies = new ArrayList<>();
-        for (Movie movie : this.currentMoviesList) {
-            currentMovies.add(new Movie(movie));
+        ArrayList<Movie> currentMovies = null;
+        if (currentMoviesList != null) {
+            currentMovies = new ArrayList<>();
+            for (Movie movie : this.currentMoviesList) {
+                currentMovies.add(new Movie(movie));
+            }
         }
         User user = null;
         if (this.currentUser != null) {

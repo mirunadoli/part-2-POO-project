@@ -6,6 +6,10 @@ import data.Notification;
 import java.util.ArrayList;
 
 public final class DeepCopy {
+
+    private DeepCopy() {
+
+    }
     /**
      *  used for creating the output
      *  makes a deep copy of an arraylist of movies
@@ -32,6 +36,11 @@ public final class DeepCopy {
         return copy;
     }
 
+    /**
+     *
+     * @param list
+     * @return
+     */
     public static ArrayList<Notification> deepCopyNotif(final ArrayList<Notification> list) {
         ArrayList<Notification> copy = new ArrayList<>();
         for (Notification notif : list) {

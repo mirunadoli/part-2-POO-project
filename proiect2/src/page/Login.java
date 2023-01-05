@@ -5,7 +5,7 @@ import action.VisitorAbstract;
 public class Login extends Page {
 
     public Login() {
-        this.pageType = "login";
+        this.setPageType("login");
     }
 
     /**

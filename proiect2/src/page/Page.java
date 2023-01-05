@@ -1,19 +1,23 @@
 package page;
 
 import action.VisitorAbstract;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import data.Movie;
 
 import java.util.ArrayList;
 
 public abstract class Page {
 
-    String pageType;
+    private String pageType;
 
-    ArrayList<Movie> moviesOnScreen;
+    private ArrayList<Movie> moviesOnScreen;
 
+    /**
+     *
+     * @param movie
+     */
+    public void notifyPage(final Movie movie) {
 
-
+    }
 
     /**
      * method accept for the implementation of the visitor design pattern
@@ -21,19 +25,19 @@ public abstract class Page {
      */
     public abstract void accept(VisitorAbstract action);
 
-    public String getPageType() {
+    public final String getPageType() {
         return pageType;
     }
 
-    public void setPageType(String pageType) {
+    public final void setPageType(final String pageType) {
         this.pageType = pageType;
     }
 
-    public ArrayList<Movie> getMoviesOnScreen() {
+    public final ArrayList<Movie> getMoviesOnScreen() {
         return moviesOnScreen;
     }
 
-    public void setMoviesOnScreen(ArrayList<Movie> moviesOnScreen) {
+    public final void setMoviesOnScreen(final ArrayList<Movie> moviesOnScreen) {
         this.moviesOnScreen = moviesOnScreen;
     }
 }

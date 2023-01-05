@@ -24,7 +24,7 @@ public class User {
     private ArrayList<Movie> availableMovies;
 
     @JsonIgnore
-    ArrayList<String> subscribedGenres;
+    private ArrayList<String> subscribedGenres;
 
 
     public User() {
@@ -65,6 +65,9 @@ public class User {
         this.subscribedGenres = deepCopyString(user.subscribedGenres);
     }
 
+    /**
+     *
+     */
     void refundUser() {
         if (this.credentials.getAccountType().equals("premium")) {
             this.numFreePremiumMovies++;
@@ -73,56 +76,49 @@ public class User {
         }
     }
 
-    void removeMovie(Movie movie) {
-//        if (this.purchasedMovies.contains(movie)) {
-//            this.purchasedMovies.remove(movie);
-//        }
+    /**
+     *
+     * @param movie
+     */
+    void removeMovie(final Movie movie) {
         this.purchasedMovies.removeAll(Collections.singletonList(movie));
-//        for (Movie movie : this.purchasedMovies) {
-//            if (movie.getName().equals(movieName)) {
-//                this.purchasedMovies.remove(movie);
-//            }
-//        }
-
         this.watchedMovies.removeAll(Collections.singletonList(movie));
         this.ratedMovies.removeAll(Collections.singletonList(movie));
         this.likedMovies.removeAll(Collections.singletonList(movie));
-//        if (this.watchedMovies.contains(movie)) {
-//            this.watchedMovies.remove(movie);
-//        }
-//        for (Movie movie : this.watchedMovies) {
-//            if (movie.getName().equals(movieName)) {
-//                this.watchedMovies.remove(movie);
-//            }
-//        }
-
-//        if (this.likedMovies.contains(movie)) {
-//            this.likedMovies.remove(movie);
-//        }
-//        for (Movie movie : this.likedMovies) {
-//            if (movie.getName().equals(movieName)) {
-//                this.likedMovies.remove(movie);
-//            }
-//        }
-
-//        if (this.ratedMovies.contains(movie)) {
-//            this.ratedMovies.remove(movie);
-//        }
-//        for (Movie movie : this.ratedMovies) {
-//            if (movie.getName().equals(movieName)) {
-//                this.ratedMovies.remove(movie);
-//            }
-//        }
     }
 
-    public void notifyUserAdd(String movieName) {
+    /**
+     *
+     * @param movie
+     */
+    public void addMovie(final Movie movie) {
+        int ok = 0;
+        for (String country : movie.getCountriesBanned()) {
+            if (country.equals(this.credentials.getCountry())) {
+                ok = 1;
+            }
+        }
+        if (ok == 0) {
+            this.availableMovies.add(movie);
+        }
+    }
+
+    /**
+     *
+     * @param movieName
+     */
+    public void notifyUserAdd(final String movieName) {
         Notification notif = new Notification();
         notif.setMessage("ADD");
         notif.setMovieName(movieName);
         notifications.add(notif);
     }
 
-    public void notifyUserDelete(Movie movie) {
+    /**
+     *
+     * @param movie
+     */
+    public void notifyUserDelete(final Movie movie) {
         Notification notif = new Notification();
         notif.setMessage("DELETE");
         notif.setMovieName(movie.getName());
@@ -204,11 +200,11 @@ public class User {
         this.notifications = notifications;
     }
 
-    public ArrayList<String> getSubscribedGenres() {
+    public final ArrayList<String> getSubscribedGenres() {
         return subscribedGenres;
     }
 
-    public void setSubscribedGenres(ArrayList<String> subscribedGenres) {
+    public final void setSubscribedGenres(final ArrayList<String> subscribedGenres) {
         this.subscribedGenres = subscribedGenres;
     }
 }

@@ -14,7 +14,7 @@ public class StartEngine {
     private ChangeCommand changeCommand;
     private OnPage onPage;
     private DatabaseAction databaseAction;
-
+    private Recommandation recommandation;
 
     public StartEngine() {
     }
@@ -25,6 +25,7 @@ public class StartEngine {
         this.changeCommand = new ChangeCommand(input, output);
         this.onPage = new OnPage(input, output);
         this.databaseAction = new DatabaseAction(input, output);
+        this.recommandation = new Recommandation(input, output);
     }
 
 
@@ -52,12 +53,28 @@ public class StartEngine {
         this.onPage = onPage;
     }
 
-    public ChangeCommand getChangeCommand() {
+    public final ChangeCommand getChangeCommand() {
         return changeCommand;
     }
 
-    public void setChangeCommand(ChangeCommand changeCommand) {
+    public final void setChangeCommand(final ChangeCommand changeCommand) {
         this.changeCommand = changeCommand;
+    }
+
+    public final DatabaseAction getDatabaseAction() {
+        return databaseAction;
+    }
+
+    public final void setDatabaseAction(final DatabaseAction databaseAction) {
+        this.databaseAction = databaseAction;
+    }
+
+    public final Recommandation getRecommandation() {
+        return recommandation;
+    }
+
+    public final void setRecommandation(final Recommandation recommandation) {
+        this.recommandation = recommandation;
     }
 
     /**
@@ -70,7 +87,7 @@ public class StartEngine {
         // iterates through each actions
         for (ActionInput act : input.getActions()) {
             //output.addObject().put("action type", act.getType()).put("num", num)
-             //       .put("feature", act.getFeature());
+            //        .put("feature", act.getFeature());
             num++;
             if (act.getType().equals("change page")) {
 
@@ -90,10 +107,16 @@ public class StartEngine {
                     changeCommand.getPreviousPages().add(prevPage);
                 }
             } else if (act.getType().equals("database")) {
+                databaseAction.setChangeCommand(changeCommand);
                 databaseAction.execute(act);
             }
         }
 
-        
+        recommandation.recommend();
+
     }
+
+
+
+
 }

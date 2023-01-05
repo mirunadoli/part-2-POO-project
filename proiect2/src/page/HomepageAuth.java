@@ -5,7 +5,7 @@ import action.VisitorAbstract;
 public class HomepageAuth extends Page {
 
     public HomepageAuth() {
-        this.pageType = "homepage authenticated";
+        this.setPageType("homepage authenticated");
     }
 
     /**

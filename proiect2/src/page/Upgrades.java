@@ -5,7 +5,7 @@ import action.VisitorAbstract;
 public class Upgrades extends Page {
 
     public Upgrades() {
-        this.pageType = "upgrades";
+        this.setPageType("upgrades");
     }
 
     /**

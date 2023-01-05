@@ -5,7 +5,7 @@ import action.VisitorAbstract;
 public class Register extends Page {
 
     public Register() {
-        this.pageType = "register";
+        this.setPageType("register");
     }
 
     /**

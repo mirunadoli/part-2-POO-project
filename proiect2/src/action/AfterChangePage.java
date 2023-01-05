@@ -1,7 +1,11 @@
 package action;
 
 import com.fasterxml.jackson.databind.node.ArrayNode;
-import data.*;
+
+import data.ActionInput;
+import data.Input;
+import data.Movie;
+import data.User;
 import page.*;
 import util.OutputMessage;
 
@@ -11,7 +15,7 @@ public class AfterChangePage extends VisitorAbstract {
     private ActionInput action;
     private Input input;
     private ArrayNode output;
-    Page previousPage;
+    private Page previousPage;
 
     public AfterChangePage() {
     }
@@ -45,11 +49,11 @@ public class AfterChangePage extends VisitorAbstract {
         this.output = output;
     }
 
-    public Page getPreviousPage() {
+    public final Page getPreviousPage() {
         return previousPage;
     }
 
-    public void setPreviousPage(Page previousPage) {
+    public final void setPreviousPage(final Page previousPage) {
         this.previousPage = previousPage;
     }
 
@@ -114,7 +118,7 @@ public class AfterChangePage extends VisitorAbstract {
         // if it doesn't exist, show error and return to movies page
         if (page.getMoviesOnScreen().isEmpty()) {
             message.addError(output);
-            input.setCurrentPage(new MoviesPage());
+            input.setCurrentPage(previousPage);
             return;
         }
 

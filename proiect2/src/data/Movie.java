@@ -20,7 +20,7 @@ public class Movie {
     private double rating;
 
     @JsonIgnore
-    HashMap<String, Double> ratingMap = new HashMap<>();
+    private HashMap<String, Double> ratingMap = new HashMap<>();
     @JsonIgnore
     private double ratingSum;
 
@@ -121,11 +121,11 @@ public class Movie {
         this.ratingSum = ratingSum;
     }
 
-    public HashMap<String, Double> getRatingMap() {
+    public final HashMap<String, Double> getRatingMap() {
         return ratingMap;
     }
 
-    public void setRatingMap(HashMap<String, Double> ratingMap) {
+    public final void setRatingMap(final HashMap<String, Double> ratingMap) {
         this.ratingMap = ratingMap;
     }
 }

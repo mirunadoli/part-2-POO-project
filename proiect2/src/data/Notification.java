@@ -7,7 +7,7 @@ public class Notification {
     public Notification() {
     }
 
-    public Notification(Notification notif) {
+    public Notification(final Notification notif) {
         this.message = notif.message;
         this.movieName = notif.movieName;
     }
