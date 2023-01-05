@@ -4,8 +4,9 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import data.ActionInput;
 import data.Input;
 import page.*;
+import util.OutputMessage;
 
-public class ChangePage extends ActionAbstract {
+public class ChangePage extends VisitorAbstract {
 
     private ActionInput action;
     private Input input;
@@ -50,17 +51,21 @@ public class ChangePage extends ActionAbstract {
      */
     public void visit(final HomepageN page) {
         Page nextPage = null;
+        OutputMessage message = new OutputMessage();
+        PageFactory pageFactory = new PageFactory();
 
         // selects the next page
-        if (action.getPage().equals("login")) {
-            nextPage = new Login();
-        } else if (action.getPage().equals("register")) {
-            nextPage = new Register();
+        switch (action.getPage()) {
+            case "login":
+            case "register":
+                nextPage = pageFactory.createPage(action.getPage());
+                break;
+            default: break;
         }
 
         // if the page can't be accessed from the current page
         if (nextPage == null) {
-            addError(output);
+            message.addError(output);
             return;
         }
 
@@ -74,19 +79,23 @@ public class ChangePage extends ActionAbstract {
      */
     public void visit(final HomepageAuth page) {
         Page nextPage = null;
+        OutputMessage message = new OutputMessage();
+        PageFactory pageFactory = new PageFactory();
 
         // selects the next page
-        if (action.getPage().equals("movies")) {
-            nextPage = new MoviesPage();
-        } else if (action.getPage().equals("upgrades")) {
-            nextPage = new Upgrades();
-        } else if (action.getPage().equals("logout")) {
-            nextPage = new Logout();
+        switch (action.getPage()) {
+            case "movies":
+            case "upgrades":
+            case "logout":
+                nextPage = pageFactory.createPage(action.getPage());
+                break;
+            default: break;
         }
+
 
         // if the page can't be accessed from the current page
         if (nextPage == null) {
-            addError(output);
+            message.addError(output);
             return;
         }
 
@@ -99,16 +108,16 @@ public class ChangePage extends ActionAbstract {
      * @param page
      */
     public void visit(final Login page) {
-        // there isn't any page that can be accesed from the login page
-        addError(output);
+        OutputMessage message = new OutputMessage();
+        message.addError(output);
     }
 
     /**
      * @param page
      */
     public void visit(final Register page) {
-        // there isn't any page that can be accesed from the register page
-        addError(output);
+        OutputMessage message = new OutputMessage();
+        message.addError(output);
     }
 
     /**
@@ -116,21 +125,23 @@ public class ChangePage extends ActionAbstract {
      */
     public void visit(final MoviesPage page) {
         Page nextPage = null;
+        OutputMessage message = new OutputMessage();
+        PageFactory pageFactory = new PageFactory();
 
         // selects the next page
-        if (action.getPage().equals("homepage authenticated")) {
-            nextPage = new HomepageAuth();
-        } else if (action.getPage().equals("see details")) {
-            nextPage = new SeeDetails();
-        } else if (action.getPage().equals("logout")) {
-            nextPage = new Logout();
-        } else if (action.getPage().equals("movies")) {
-            nextPage = new MoviesPage();
+        switch (action.getPage()) {
+            case "homepage authenticated":
+            case "see details":
+            case "logout":
+            case "movies":
+                nextPage = pageFactory.createPage(action.getPage());
+                break;
+            default: break;
         }
 
         // if the page can't be accessed from the current page
         if (nextPage == null) {
-            addError(output);
+            message.addError(output);
             return;
         }
 
@@ -143,21 +154,23 @@ public class ChangePage extends ActionAbstract {
      */
     public void visit(final SeeDetails page) {
         Page nextPage = null;
+        OutputMessage message = new OutputMessage();
+        PageFactory pageFactory = new PageFactory();
 
         // selects the next page
-        if (action.getPage().equals("movies")) {
-            nextPage = new MoviesPage();
-        } else if (action.getPage().equals("homepage authenticated")) {
-            nextPage = new HomepageAuth();
-        } else if (action.getPage().equals("upgrades")) {
-            nextPage = new Upgrades();
-        } else if (action.getPage().equals("logout")) {
-            nextPage = new Logout();
+        switch (action.getPage()) {
+            case "homepage authenticated":
+            case "upgrades":
+            case "logout":
+            case "movies":
+                nextPage = pageFactory.createPage(action.getPage());
+                break;
+            default: break;
         }
 
         // if the page can't be accessed from the current page
         if (nextPage == null) {
-            addError(output);
+            message.addError(output);
             return;
         }
 
@@ -170,19 +183,22 @@ public class ChangePage extends ActionAbstract {
      */
     public void visit(final Upgrades page) {
         Page nextPage = null;
+        OutputMessage message = new OutputMessage();
+        PageFactory pageFactory = new PageFactory();
 
         // selects the next page
-        if (action.getPage().equals("movies")) {
-            nextPage = new MoviesPage();
-        } else if (action.getPage().equals("homepage authenticated")) {
-            nextPage = new HomepageAuth();
-        } else if (action.getPage().equals("logout")) {
-            nextPage = new Logout();
+        switch (action.getPage()) {
+            case "homepage authenticated":
+            case "logout":
+            case "movies":
+                nextPage = pageFactory.createPage(action.getPage());
+                break;
+            default: break;
         }
 
         // if the page can't be accessed from the current page
         if (nextPage == null) {
-            addError(output);
+            message.addError(output);
             return;
         }
 
@@ -194,8 +210,8 @@ public class ChangePage extends ActionAbstract {
      * @param page
      */
     public void visit(final Logout page) {
-        // there isn't any page that can be accesed from the login page
-        addError(output);
+        OutputMessage message = new OutputMessage();
+        message.addError(output);
     }
 
 }

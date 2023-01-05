@@ -1,5 +1,6 @@
 package util;
 
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import data.Movie;
 import data.User;
 
@@ -39,5 +40,34 @@ public class OutputMessage {
 
     public final void setCurrentUser(final User currentUser) {
         this.currentUser = currentUser;
+    }
+
+
+    /**
+     * @param output
+     */
+    public void addToOutput(final ArrayNode output) {
+        ArrayList<Movie> currentMovies = new ArrayList<>();
+        for (Movie movie : this.currentMoviesList) {
+            currentMovies.add(new Movie(movie));
+        }
+        User user = null;
+        if (this.currentUser != null) {
+            user = new User(this.currentUser);
+        }
+        output.addObject().put("error", this.error)
+                .putPOJO("currentMoviesList", currentMovies)
+                .putPOJO("currentUser", user);
+    }
+
+
+    /**
+     * @param output
+     */
+    public void addError(final ArrayNode output) {
+        this.setError("Error");
+        this.setCurrentUser(null);
+        this.setCurrentMoviesList(new ArrayList<>());
+        addToOutput(output);
     }
 }

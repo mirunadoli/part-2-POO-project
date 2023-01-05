@@ -5,12 +5,13 @@ import data.*;
 import page.*;
 import util.OutputMessage;
 
-public class AfterChangePage extends ActionAbstract {
+public class AfterChangePage extends VisitorAbstract {
 
 
     private ActionInput action;
     private Input input;
     private ArrayNode output;
+    Page previousPage;
 
     public AfterChangePage() {
     }
@@ -44,6 +45,13 @@ public class AfterChangePage extends ActionAbstract {
         this.output = output;
     }
 
+    public Page getPreviousPage() {
+        return previousPage;
+    }
+
+    public void setPreviousPage(Page previousPage) {
+        this.previousPage = previousPage;
+    }
 
     /**
      * @param page
@@ -81,44 +89,39 @@ public class AfterChangePage extends ActionAbstract {
         User user = input.getCurrentUser();
 
         // resets movies seen on screen
-        user.getMoviesOnScreen().removeAll(user.getMoviesOnScreen());
-        user.getMoviesOnScreen().addAll(user.getAvailableMovies());
+        page.getMoviesOnScreen().clear();
+        page.getMoviesOnScreen().addAll(user.getAvailableMovies());
 
         // shows available movies on screen
         message.setCurrentUser(user);
-        message.setCurrentMoviesList(user.getMoviesOnScreen());
-        addToOutput(output, message);
+        message.setCurrentMoviesList(page.getMoviesOnScreen());
+        message.addToOutput(output);
     }
 
     /**
      * @param page
      */
     public void visit(final SeeDetails page) {
-        User user = input.getCurrentUser();
         OutputMessage message = new OutputMessage();
 
         // verify if the movie exists and can be seen by the user
-        for (Movie movie : input.getCurrentUser().getMoviesOnScreen()) {
+        for (Movie movie : previousPage.getMoviesOnScreen()) {
             if (movie.getName().equals(action.getMovie())) {
-                page.getMovie().add(movie);
+                page.getMoviesOnScreen().add(movie);
             }
         }
 
         // if it doesn't exist, show error and return to movies page
-        if (page.getMovie().isEmpty()) {
-            addError(output);
+        if (page.getMoviesOnScreen().isEmpty()) {
+            message.addError(output);
             input.setCurrentPage(new MoviesPage());
             return;
         }
 
-        // sets movies on screen
-        user.getMoviesOnScreen().removeAll(user.getMoviesOnScreen());
-        user.getMoviesOnScreen().addAll(page.getMovie());
-
         // adds to output
         message.setCurrentUser(input.getCurrentUser());
-        message.setCurrentMoviesList(page.getMovie());
-        addToOutput(output, message);
+        message.setCurrentMoviesList(page.getMoviesOnScreen());
+        message.addToOutput(output);
     }
 
     /**

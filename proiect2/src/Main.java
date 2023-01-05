@@ -9,6 +9,7 @@ import java.io.IOException;
 
 public class Main {
 
+    static int i = 1;
     /**
      * @param args
      * @throws IOException
@@ -27,5 +28,7 @@ public class Main {
         // puts the output in the corresponding file
         ObjectWriter objectWriter = objectMapper.writerWithDefaultPrettyPrinter();
         objectWriter.writeValue(new File(args[1]), outputJson);
+        objectWriter.writeValue(new File("results/" + args[1] + i), outputJson);
+        i++;
     }
 }

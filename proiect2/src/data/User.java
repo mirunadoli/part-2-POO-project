@@ -4,6 +4,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import util.Constants;
 
 import java.util.ArrayList;
+import java.util.Collections;
+
+import static util.DeepCopy.*;
 
 public class User {
     private Credentials credentials;
@@ -14,27 +17,15 @@ public class User {
     private ArrayList<Movie> likedMovies;
     private ArrayList<Movie> ratedMovies;
 
+    private ArrayList<Notification> notifications;
+
     // the movies that are not banned for the user
     @JsonIgnore
     private ArrayList<Movie> availableMovies;
 
-    // the movies shown on screen at any moment
     @JsonIgnore
-    private ArrayList<Movie> moviesOnScreen;
+    ArrayList<String> subscribedGenres;
 
-    /**
-     * used for creating the output
-     * makes a deep copy of an arraylist of movies
-     * @param list
-     * @return
-     */
-    ArrayList<Movie> deepCopy(final ArrayList<Movie> list) {
-        ArrayList<Movie> copy = new ArrayList<>();
-        for (Movie movie : list) {
-            copy.add(new Movie(movie));
-        }
-        return copy;
-    }
 
     public User() {
         this.tokensCount = 0;
@@ -44,7 +35,8 @@ public class User {
         this.likedMovies = new ArrayList<>();
         this.ratedMovies = new ArrayList<>();
         this.availableMovies = new ArrayList<>();
-        this.moviesOnScreen = new ArrayList<>();
+        this.notifications = new ArrayList<>();
+        this.subscribedGenres = new ArrayList<>();
     }
 
     public User(final Credentials credentials) {
@@ -56,7 +48,8 @@ public class User {
         this.likedMovies = new ArrayList<>();
         this.ratedMovies = new ArrayList<>();
         this.availableMovies = new ArrayList<>();
-        this.moviesOnScreen = new ArrayList<>();
+        this.notifications = new ArrayList<>();
+        this.subscribedGenres = new ArrayList<>();
     }
 
     public User(final User user) {
@@ -68,9 +61,76 @@ public class User {
         this.likedMovies = deepCopy(user.likedMovies);
         this.ratedMovies = deepCopy(user.ratedMovies);
         this.availableMovies = deepCopy(user.availableMovies);
-        this.moviesOnScreen = deepCopy(user.moviesOnScreen);
+        this.notifications = deepCopyNotif(user.notifications);
+        this.subscribedGenres = deepCopyString(user.subscribedGenres);
     }
 
+    void refundUser() {
+        if (this.credentials.getAccountType().equals("premium")) {
+            this.numFreePremiumMovies++;
+        } else {
+            this.tokensCount = this.tokensCount + 2;
+        }
+    }
+
+    void removeMovie(Movie movie) {
+//        if (this.purchasedMovies.contains(movie)) {
+//            this.purchasedMovies.remove(movie);
+//        }
+        this.purchasedMovies.removeAll(Collections.singletonList(movie));
+//        for (Movie movie : this.purchasedMovies) {
+//            if (movie.getName().equals(movieName)) {
+//                this.purchasedMovies.remove(movie);
+//            }
+//        }
+
+        this.watchedMovies.removeAll(Collections.singletonList(movie));
+        this.ratedMovies.removeAll(Collections.singletonList(movie));
+        this.likedMovies.removeAll(Collections.singletonList(movie));
+//        if (this.watchedMovies.contains(movie)) {
+//            this.watchedMovies.remove(movie);
+//        }
+//        for (Movie movie : this.watchedMovies) {
+//            if (movie.getName().equals(movieName)) {
+//                this.watchedMovies.remove(movie);
+//            }
+//        }
+
+//        if (this.likedMovies.contains(movie)) {
+//            this.likedMovies.remove(movie);
+//        }
+//        for (Movie movie : this.likedMovies) {
+//            if (movie.getName().equals(movieName)) {
+//                this.likedMovies.remove(movie);
+//            }
+//        }
+
+//        if (this.ratedMovies.contains(movie)) {
+//            this.ratedMovies.remove(movie);
+//        }
+//        for (Movie movie : this.ratedMovies) {
+//            if (movie.getName().equals(movieName)) {
+//                this.ratedMovies.remove(movie);
+//            }
+//        }
+    }
+
+    public void notifyUserAdd(String movieName) {
+        Notification notif = new Notification();
+        notif.setMessage("ADD");
+        notif.setMovieName(movieName);
+        notifications.add(notif);
+    }
+
+    public void notifyUserDelete(Movie movie) {
+        Notification notif = new Notification();
+        notif.setMessage("DELETE");
+        notif.setMovieName(movie.getName());
+        notifications.add(notif);
+
+        refundUser();
+        removeMovie(movie);
+    }
 
     public final Credentials getCredentials() {
         return credentials;
@@ -136,11 +196,19 @@ public class User {
         this.availableMovies = availableMovies;
     }
 
-    public final ArrayList<Movie> getMoviesOnScreen() {
-        return moviesOnScreen;
+    public final ArrayList<Notification> getNotifications() {
+        return notifications;
     }
 
-    public final void setMoviesOnScreen(final ArrayList<Movie> moviesOnScreen) {
-        this.moviesOnScreen = moviesOnScreen;
+    public final void setNotifications(final ArrayList<Notification> notifications) {
+        this.notifications = notifications;
+    }
+
+    public ArrayList<String> getSubscribedGenres() {
+        return subscribedGenres;
+    }
+
+    public void setSubscribedGenres(ArrayList<String> subscribedGenres) {
+        this.subscribedGenres = subscribedGenres;
     }
 }

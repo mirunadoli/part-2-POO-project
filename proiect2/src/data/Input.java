@@ -12,6 +12,7 @@ public class Input {
 
     @JsonIgnore
     private User currentUser;
+
     private ArrayList<User> users;
     private ArrayList<Movie> movies;
     private ArrayList<ActionInput> actions;
@@ -55,4 +56,5 @@ public class Input {
     public final void setCurrentUser(final User currentUser) {
         this.currentUser = currentUser;
     }
+
 }

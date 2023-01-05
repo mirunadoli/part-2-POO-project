@@ -3,10 +3,13 @@ package data;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+
+import static util.DeepCopy.deepCopyString;
 
 public class Movie {
     private String name;
-    private int year;
+    private String year;
     private int duration;
     private ArrayList<String> genres;
     private ArrayList<String> actors;
@@ -17,22 +20,13 @@ public class Movie {
     private double rating;
 
     @JsonIgnore
+    HashMap<String, Double> ratingMap = new HashMap<>();
+    @JsonIgnore
     private double ratingSum;
 
     public Movie() {
     }
 
-    /**
-     *  used for creating the output
-     *  makes a deep copy of an arraylist of movies
-     * @param list
-     * @return
-     */
-    ArrayList<String> deepCopyString(final ArrayList<String> list) {
-        ArrayList<String> copy = new ArrayList<>();
-        copy.addAll(list);
-        return copy;
-    }
 
     public Movie(final Movie movie) {
         this.name = movie.name;
@@ -55,11 +49,11 @@ public class Movie {
         this.name = name;
     }
 
-    public final int getYear() {
+    public final String getYear() {
         return year;
     }
 
-    public final void setYear(final int year) {
+    public final void setYear(final String year) {
         this.year = year;
     }
 
@@ -125,5 +119,13 @@ public class Movie {
 
     public final void setRatingSum(final double ratingSum) {
         this.ratingSum = ratingSum;
+    }
+
+    public HashMap<String, Double> getRatingMap() {
+        return ratingMap;
+    }
+
+    public void setRatingMap(HashMap<String, Double> ratingMap) {
+        this.ratingMap = ratingMap;
     }
 }
