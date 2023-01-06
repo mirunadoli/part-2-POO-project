@@ -158,7 +158,7 @@ public class OnPage extends VisitorAbstract {
      */
     public void visit(final MoviesPage page) {
         OutputMessage message = new OutputMessage();
-        // if action is of type search
+
         if (action.getFeature().equals("search")) {
             ArrayList<Movie> searched = OnPageUtil.search(input, action);
 
@@ -166,7 +166,6 @@ public class OnPage extends VisitorAbstract {
             message.setCurrentUser(input.getCurrentUser());
             message.addToOutput(output);
 
-        // if action is of type filter
         } else if (action.getFeature().equals("filter")) {
             Filter filter = action.getFilters();
             User user = input.getCurrentUser();
@@ -194,7 +193,6 @@ public class OnPage extends VisitorAbstract {
                 message.addToOutput(output);
             }
 
-        // if the user tries any other action => error
         } else {
             message.addError(output);
         }

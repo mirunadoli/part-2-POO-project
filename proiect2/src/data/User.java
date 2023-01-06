@@ -66,7 +66,8 @@ public class User {
     }
 
     /**
-     *
+     * if a movie is deleted, give back the tokens
+     * or a free movie to the user
      */
     void refundUser() {
         if (this.credentials.getAccountType().equals("premium")) {
@@ -77,7 +78,7 @@ public class User {
     }
 
     /**
-     *
+     * deletes a movie from the user's lists
      * @param movie
      */
     void removeMovie(final Movie movie) {
@@ -88,7 +89,7 @@ public class User {
     }
 
     /**
-     *
+     * adds a movie to available movies list
      * @param movie
      */
     public void addMovie(final Movie movie) {
@@ -104,7 +105,7 @@ public class User {
     }
 
     /**
-     *
+     * notifies the user when a movie is added
      * @param movieName
      */
     public void notifyUserAdd(final String movieName) {
@@ -115,7 +116,7 @@ public class User {
     }
 
     /**
-     *
+     * notifies the user when a movie is deleted
      * @param movie
      */
     public void notifyUserDelete(final Movie movie) {

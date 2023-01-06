@@ -21,7 +21,7 @@ public class MoviesPage extends Page {
     }
 
     /**
-     *
+     * notifies a movies page if a new movie is added to the database
      * @param movie
      */
     public final void notifyPage(final Movie movie) {

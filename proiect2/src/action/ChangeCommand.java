@@ -25,7 +25,8 @@ public class ChangeCommand extends CommandAbstract {
 
 
     /**
-     *
+     * changes the page to the given page
+     * and adds the old page to previous pages
      */
     public void execute() {
         changePage.setAction(action);
@@ -42,6 +43,7 @@ public class ChangeCommand extends CommandAbstract {
 
             input.getCurrentPage().accept(afterChange);
 
+            // if see details produced an error, the user is send back to the previous page
             if (action.getPage().equals("see details")
                     && previousPages.get(previousPages.size() - 1) ==  input.getCurrentPage()) {
                 previousPages.remove(input.getCurrentPage());
@@ -51,15 +53,16 @@ public class ChangeCommand extends CommandAbstract {
             }
 
         } else {
-            // remove page from prevPages
             previousPages.remove(input.getCurrentPage());
         }
     }
 
     /**
-     *
+     * executes the back action
      */
     public void undo() {
+
+        // if the action can't be executed
         OutputMessage message = new OutputMessage();
         if (input.getCurrentUser() == null) {
             message.addError(output);
@@ -78,6 +81,7 @@ public class ChangeCommand extends CommandAbstract {
             return;
         }
 
+        // sets the current page to the old one
         input.setCurrentPage(backPage);
         previousPages.remove(input.getCurrentPage());
 

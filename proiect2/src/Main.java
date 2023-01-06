@@ -9,7 +9,6 @@ import java.io.IOException;
 
 public class Main {
 
-    static int i = 1;
     /**
      * @param args
      * @throws IOException
@@ -21,14 +20,12 @@ public class Main {
         Input inputJson = objectMapper.readValue(new File(args[0]), Input.class);
         ArrayNode outputJson = objectMapper.createArrayNode();
 
-        // the start of the program
+        // starts the program
         StartEngine startEngine = new StartEngine(inputJson, outputJson);
         startEngine.start();
 
         // puts the output in the corresponding file
         ObjectWriter objectWriter = objectMapper.writerWithDefaultPrettyPrinter();
         objectWriter.writeValue(new File(args[1]), outputJson);
-        objectWriter.writeValue(new File("results/" + args[1] + i), outputJson);
-        i++;
     }
 }

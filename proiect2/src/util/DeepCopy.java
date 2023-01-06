@@ -12,7 +12,7 @@ public final class DeepCopy {
     }
     /**
      *  used for creating the output
-     *  makes a deep copy of an arraylist of movies
+     *  makes a deep copy of an arraylist of strings
      * @param list
      * @return
      */
@@ -37,7 +37,7 @@ public final class DeepCopy {
     }
 
     /**
-     *
+     * deep copy of notifications
      * @param list
      * @return
      */

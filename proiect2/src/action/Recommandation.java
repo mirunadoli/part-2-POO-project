@@ -36,22 +36,23 @@ public class Recommandation {
     }
 
     /**
-     *
+     * creates the recommendation notification for premium users
      */
     public void recommend() {
 
+        User user = input.getCurrentUser();
         // if no recommandation is needed
-        if (input.getCurrentUser() == null
-                || input.getCurrentUser().getCredentials().getAccountType().equals("standard")) {
+        if (user == null
+                || user.getCredentials().getAccountType().equals("standard")) {
             return;
         }
 
         OutputMessage message = new OutputMessage();
         HashMap<String, Integer> likedGen = new HashMap<>();
-        User user = input.getCurrentUser();
         Notification notif = new Notification();
         int like = 1;
 
+        // if the recommendation can't be made
         if (user.getLikedMovies().isEmpty()) {
             notif.setMovieName("No recommendation");
             notif.setMessage("Recommendation");
@@ -59,8 +60,10 @@ public class Recommandation {
             message.setCurrentUser(user);
             message.setCurrentMoviesList(null);
             message.addToOutput(output);
+            return;
         }
 
+        // creates a map with the liked genres and their like count
         for (Movie movie : user.getLikedMovies()) {
             for (String genre : movie.getGenres()) {
                 if (!likedGen.containsKey(genre)) {
@@ -87,6 +90,7 @@ public class Recommandation {
         ArrayList<Movie> database = input.getCurrentUser().getAvailableMovies();
         Collections.sort(database, (o1, o2) -> o2.getNumLikes() - o1.getNumLikes());
 
+        // creates the recommendation
         for (Map.Entry<String, Integer> genre : genresToSort) {
             for (Movie movie : database) {
                 if (movie.getGenres().contains(genre.getKey())

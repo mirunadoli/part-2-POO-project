@@ -92,7 +92,6 @@ public class ChangePage extends VisitorAbstract {
             default: break;
         }
 
-
         // if the page can't be accessed from the current page
         if (nextPage == null) {
             message.addError(output);

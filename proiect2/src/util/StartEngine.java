@@ -78,24 +78,19 @@ public class StartEngine {
     }
 
     /**
-     *
+     * the start of the program
      */
     public void start() {
         // the program starts from page "homepage neauthenticated"
         input.setCurrentPage(new HomepageN());
-        int num = 0;
-        // iterates through each actions
-        for (ActionInput act : input.getActions()) {
-            //output.addObject().put("action type", act.getType()).put("num", num)
-            //        .put("feature", act.getFeature());
-            num++;
-            if (act.getType().equals("change page")) {
 
+        // iterates through each action
+        for (ActionInput act : input.getActions()) {
+            if (act.getType().equals("change page")) {
                 changeCommand.setAction(act);
                 changeCommand.execute();
 
             } else if (act.getType().equals("back")) {
-
                 changeCommand.setAction(act);
                 changeCommand.undo();
 
@@ -103,6 +98,7 @@ public class StartEngine {
                 Page prevPage = input.getCurrentPage();
                 onPage.setAction(act);
                 input.getCurrentPage().accept(onPage);
+
                 if (prevPage != input.getCurrentPage()) {
                     changeCommand.getPreviousPages().add(prevPage);
                 }

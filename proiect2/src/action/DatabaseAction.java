@@ -13,6 +13,7 @@ public class DatabaseAction {
     private ArrayNode output;
     private ChangeCommand changeCommand;
 
+
     public DatabaseAction(final Input input, final ArrayNode output) {
         this.input = input;
         this.output = output;
@@ -43,10 +44,12 @@ public class DatabaseAction {
     }
 
     /**
-     *
+     * adds a movie to the database and notifies the users
      * @param movie
      */
     public void addMovie(final Movie movie) {
+
+        // if the movie exists already
         for (Movie mov : input.getMovies()) {
             if (mov.getName().equals(movie.getName())) {
                 OutputMessage message = new OutputMessage();
@@ -55,6 +58,7 @@ public class DatabaseAction {
             }
         }
 
+        // notifies the subscribed users
         input.getMovies().add(movie);
         for (User user : input.getUsers()) {
             for (String genre : movie.getGenres()) {
@@ -65,10 +69,12 @@ public class DatabaseAction {
             }
         }
 
+        // adds the movie to available movies list
         for (User user : input.getUsers()) {
             user.addMovie(movie);
         }
 
+        // adds the movie on movies page
         if (input.getCurrentPage().getPageType().equals("movies")) {
             input.getCurrentPage().getMoviesOnScreen().add(movie);
         }
@@ -83,7 +89,7 @@ public class DatabaseAction {
     }
 
     /**
-     *
+     * deletes a movie from the database
      * @param movieName
      */
     public void deleteMovie(final String movieName) {
@@ -110,10 +116,7 @@ public class DatabaseAction {
                 user.notifyUserDelete(movieToDelete);
             }
 
-            // if the users have the movie in available
-            if (user.getAvailableMovies().contains(movieToDelete)) {
-                user.getAvailableMovies().remove(movieToDelete);
-            }
+            user.getAvailableMovies().remove(movieToDelete);
         }
 
         // if the movie is seen on screen

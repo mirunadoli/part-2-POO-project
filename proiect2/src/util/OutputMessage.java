@@ -44,6 +44,7 @@ public class OutputMessage {
 
 
     /**
+     * adds to output
      * @param output
      */
     public void addToOutput(final ArrayNode output) {
@@ -65,6 +66,7 @@ public class OutputMessage {
 
 
     /**
+     * adds error to output
      * @param output
      */
     public void addError(final ArrayNode output) {

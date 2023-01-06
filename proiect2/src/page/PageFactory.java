@@ -2,7 +2,7 @@ package page;
 
 public class PageFactory {
     /**
-     *
+     * creates a new page based on the type given
      * @param pageType
      * @return
      */
